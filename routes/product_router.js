@@ -1,10 +1,24 @@
 import express from "express";
 import {createProductData,DeleteProductData, getAllProductData, getProductDataById, productDeleteReview, productReview, productUpdateReview, UpdateProductData } from "../controller/Product-controller.js"
-import upload from "../Image_multer/image_multer.js";
+// import upload from "../Image_multer/image_multer.js";
+import multer from "multer"
+
 
 
 export const Product_router = express.Router()
 
+
+const Id=crypto.randomUUID();
+
+const storage = multer.diskStorage({
+    destination: './public'
+    ,
+    filename: function (req, file, cb) {
+      cb(null, Id + "_" + file.originalname)
+    }
+  })
+  
+  const upload = multer({ storage: storage })
 
 // product routes
 
