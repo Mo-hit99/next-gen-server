@@ -14,7 +14,7 @@ const app = express();
 const corsOptions = {
   origin: 'https://next-gen-clothings.vercel.app', // Allow this origin
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'application/json'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true, // If you need to include credentials (cookies, authorization headers)
 };
 app.options('*', cors(corsOptions))
