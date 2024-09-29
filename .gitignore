@@ -1,0 +1,34 @@
+# Ignore properties file
+*.properties
+
+# Ignore node_modules directory (for JavaScript projects)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore IDE settings and cache
+.idea/
+.vscode/
+*.iml
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore build and dist directories (for compiled code)
+build/
+dist/
+
+# Ignore environment files (e.g. .env)
+*.env
+
+# Ignore coverage files (e.g. coverage.xml)
+coverage.xml
+
+# Ignore package lock files (e.g. package-lock.json)
+package-lock.json
+yarn.lock
+
+# Ignore temp files
+*.tmp
