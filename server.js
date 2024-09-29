@@ -11,7 +11,12 @@ dotenv.config();
 
 const port= process.env.PORT || 8080;
 const app = express();
-app.use(cors())
+const corsOptions = {
+  origin: 'https://next-gen-clothings.vercel.app', // Allow this origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // If you need to include credentials (cookies, authorization headers)
+};
+app.use(cors(corsOptions))
 
 
 
