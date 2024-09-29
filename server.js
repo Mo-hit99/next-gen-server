@@ -15,6 +15,8 @@ app.use(cors())
 
 
 
+app.use(Product_router)
+app.use(User_route)
 
 app.use(express.json())
 app.use('/productData',express.static("public"));
@@ -22,5 +24,3 @@ app.listen(port,()=>{
   console.log(port);
   db_connection()
 })
-app.use(Product_router)
-app.use(User_route)
