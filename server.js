@@ -16,7 +16,7 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // If you need to include credentials (cookies, authorization headers)
 };
-app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 
 
 
