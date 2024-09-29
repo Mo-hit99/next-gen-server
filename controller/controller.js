@@ -27,8 +27,8 @@ const createToken = (_id) => {
 
 // get all data
 export const get_allData = async (req, res) => {
-  const user_data = await userModel.find();
   try {
+    const user_data = await userModel.find();
     res.status(200).json(user_data);
     console.log(user_data);
   } catch (error) {
@@ -51,9 +51,9 @@ export const get_allData = async (req, res) => {
 
 // update user data
 export const UserUpdateData = async (req, res) => {
-  const _id = req.params.id;
-  const update_date = await userModel.findOneAndUpdate(_id, req.body);
   try {
+    const _id = req.params.id;
+    const update_date = await userModel.findOneAndUpdate(_id, req.body);
     res.status(200).json(update_date);
     console.log(update_date);
   } catch (error) {
@@ -63,10 +63,10 @@ export const UserUpdateData = async (req, res) => {
 
 // delete user data
 export const UserDeleteDate = async (req, res) => {
-  const { id } = req.params;
-
-  const delete_data = await userModel.findOneAndDelete({ _id: id });
+  
   try {
+    const { id } = req.params;
+    const delete_data = await userModel.findOneAndDelete({ _id: id });
     res.status(200).json(delete_data);
     console.log(delete_data);
   } catch (error) {
@@ -141,9 +141,9 @@ export const verificationOtp = async (req, res) => {
 
 // UserLogin
 export const userLogin = async (req, res) => {
-  const { email, password } = req.body;
-
+  
   try {
+    const { email, password } = req.body;
     const user = await userModel.login(email, password);
     const token = createToken(user._id);
     res.status(200).json({ email, token });
@@ -198,9 +198,9 @@ export const userForgotPassword = async (req, res) => {
 
 // rest-password
 export const userRestPassword = async (req, res) => {
-  const {token} = req.params;
-  const {password} = req.body;
   try {
+    const {token} = req.params;
+    const {password} = req.body;
     const decodedToken = jwt.verify(token,process.env.JWT_SIGNATURE);
     if(!decodedToken){
       return res.status(401).send({message:"Invalid token"});
