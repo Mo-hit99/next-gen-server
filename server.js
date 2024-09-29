@@ -17,13 +17,14 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true, // If you need to include credentials (cookies, authorization headers)
 };
-app.options('*', cors(corsOptions))
+app.use(cors(corsOptions))
 app.use(express.json())
 
 
 
 app.use(Product_router)
 app.use(User_route)
+app.options('*', cors(corsOptions)); 
 
 app.use('/productData',express.static("public"));
 app.listen(port,()=>{
