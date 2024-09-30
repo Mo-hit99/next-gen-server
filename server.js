@@ -26,7 +26,6 @@ app.use(Product_router)
 app.use(User_route)
 app.options('*', cors(corsOptions)); 
 
-app.use('/productData',express.static("public"));
 app.listen(port,()=>{
   console.log(port);
   db_connection()
