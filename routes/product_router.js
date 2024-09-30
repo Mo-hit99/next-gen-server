@@ -23,7 +23,6 @@ cloudinary.config({
 // Configure multer storage
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: 'uploads', // The name of the folder in Cloudinary
   params:{
     format: async (req,file)=>{
       const fileType= file.mimetype.split('/')[1];
@@ -33,6 +32,7 @@ const storage = new CloudinaryStorage({
       `${Date.now()}-${file.originalname.split('.')[0]}`
     }
   },
+  folder: 'uploads', // The name of the folder in Cloudinary
 });
 
 // Create multer instance
