@@ -17,16 +17,16 @@ dotenv.config();
 export const User_route = express.Router();
 
 // get all user data
-User_route.get("/", get_allData);
+User_route.get("/api/user", get_allData);
 
 // get user data by Id
 // User_route.get("/:id", getById_data);
 
 // update user data
-User_route.patch("/:id", UserUpdateData);
+User_route.patch("/api/user/:id", UserUpdateData);
 
 // delete user data
-User_route.delete("/:id", UserDeleteDate);
+User_route.delete("/api/user/:id", UserDeleteDate);
 
 // create user data register
 User_route.post("/signup", UserCreateData);
