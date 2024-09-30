@@ -54,38 +54,11 @@ export const getProductDataById = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-//create product data
-// export const createProductData = async (req, res) => {
-//   try {
-//     const { brand, title, price, description, category, rate, count } =
-//       req.body;
-//     const {filename} = req.file;
-//     const productImg = new ProductSchema({
-//       brand,
-//       title,
-//       price,
-//       description,
-//       category,
-//       rate,
-//       count,
-//       filename,
-//     });
-    
-//     await productImg.save();
-//     res.send("file stored in data");
-//     console.log("file has been stored in database");
-//   } catch (error) {
-//     console.log("file has failed to stored in database", {
-//       error: error,
-//     });
-//     res.status(400).json(error.message)
-//   }
-// };
 export const createProductData = async (req, res) => {
   try {
     const { brand, title, price, description, category, rate, count } =
       req.body;
-      const fileDataArray = req.files.map(file => file.filename);
+      const fileDataArray = req.files.map(file => file.path);
      if(!fileDataArray){
       console.log('no file there!!!')
      }
@@ -117,7 +90,7 @@ export const UpdateProductData = async (req, res) => {
     const { id } = req.params;
     const { brand, title, price, description, category, rate, count } =
       req.body;
-      const fileDataArray = req.files.map(file => file.filename);
+      const fileDataArray = req.files.map(file => file.path);
     const updateProduct = await ProductSchema.findOneAndUpdate(
       { _id: id },
       {
@@ -216,12 +189,6 @@ export const productReview = async (req, res) => {
       });
     }
 
-    // if (rating < 1 || rating > 5) {
-    //   return res.status(400).send({
-    //     success: false,
-    //     message: "Rating must be between 1 and 5",
-    //   });
-    // }
 
     const product = await ProductSchema.findById(productId);
     
@@ -232,9 +199,7 @@ export const productReview = async (req, res) => {
       });
     }
 
-    // if (alreadyReviewed) {
-    //   return res.status(400).send({ success: false, message: "Product already reviewed" });
-    // }
+   
 
     const review = {
       rating: Number(rating),
