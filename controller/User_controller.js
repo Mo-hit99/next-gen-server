@@ -29,7 +29,20 @@ const createToken = (_id) => {
 export const get_allData = async (req, res) => {
   try {
     const user_data = await userModel.find();
-    res.status(200).json(user_data);
+      // Create a safe object for the response
+      const safeUsers = user_data.map(user => ({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        createdAt: user.createdAt,
+        image: user.image,
+        phone:user.phone,
+        address:user.address,
+        optionalAddress:user. optionalAddress,
+        officeAddress:user.officeAddress,
+        optionalOfficeAddress:user.optionalOfficeAddress,
+      }));
+    res.status(200).json(safeUsers);
     console.log(user_data);
   } catch (error) {
     res.status(400).json({ error: error });
@@ -37,38 +50,81 @@ export const get_allData = async (req, res) => {
 };
 
 // get by id data
-// export const getById_data = async (req, res) => {
-//   const id  = req.params.id;
-//   const User_data = await userModel.findById(id);
-
-//   try {
-//     res.status(200).json(User_data);
-//     console.log(User_data);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
+export const getById_data = async (req, res) => {
+  
+  try {
+    const id  = req.params.id;
+    const User_data = await userModel.findById(id);
+    const safeUser = {
+      _id: User_data._id,
+      email: User_data.email,
+      name: User_data.name,
+      createdAt: User_data.createdAt,
+      image: User_data.image,
+      phone: User_data.phone,
+      address: User_data.address,
+      optionalAddress: User_data.optionalAddress,
+      officeAddress: User_data.officeAddress,
+      optionalOfficeAddress: User_data.optionalOfficeAddress,
+    };
+    res.status(200).json(safeUser);
+    console.log(User_data);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // update user data
 export const UserUpdateData = async (req, res) => {
   try {
-    const _id = req.params.id;
-    const update_date = await userModel.findOneAndUpdate(_id, req.body);
-    res.status(200).json(update_date);
-    console.log(update_date);
+    const { id } = req.params;
+    const {
+      name,
+      address,
+      optionalAddress,
+      officeAddress,
+      phone,
+      optionalOfficeAddress,
+    } = req.body;
+    if (
+      !name &&
+      !address &&
+      !optionalAddress &&
+      !officeAddress &&
+      !optionalOfficeAddress &&
+      !phone
+    ) {
+      return res.status(404).json({ message: "all fields must be filled" });
+    }
+    const updateUser = await userModel.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        address,
+        optionalAddress,
+        officeAddress,
+        optionalOfficeAddress,
+        phone,
+      },
+      { new: true }
+    );
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json("User detail updated");
+    console.log("User detail updated");
   } catch (error) {
     res.status(400).json({ error: error });
   }
 };
 
+
 // delete user data
 export const UserDeleteDate = async (req, res) => {
-  
   try {
     const { id } = req.params;
     const delete_data = await userModel.findOneAndDelete({ _id: id });
     res.status(200).json(delete_data);
-    console.log(delete_data);
   } catch (error) {
     res.status(400).json({ error: error });
   }
@@ -92,7 +148,7 @@ export const UserCreateData = async (req, res) => {
     });
     
     let mailOptions = {
-      from: `"e-Bazar.com" <${process.env.NODE_MAIL_ID}>`,
+      from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
       to: `${user.email}`,
       subject: "verification Email",
       html: optTemplate(user.name,otp)
@@ -174,7 +230,7 @@ export const userForgotPassword = async (req, res) => {
     });
 
     let mailOptions = {
-      from: `"e-Bazar.com" <${process.env.NODE_MAIL_ID}>`,
+      from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
       to: `${user.email}`,
       subject: "Reset your Password",
       text: `Reset Your Password
