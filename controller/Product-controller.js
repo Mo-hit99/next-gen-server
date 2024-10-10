@@ -186,10 +186,10 @@ export const productReview = async (req, res) => {
     const productId = req.params.id;
 
     //Validate input
-    if (!comment || !rating) {
+    if (!name || !comment || !rating) {
       return res.status(400).send({
         success: false,
-        message: "Comment and rating are required",
+        message: "name,Comment and rating are required",
       });
     }
 

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const ReviewProduct = mongoose.Schema({
+    name:{type : String},
     rating:{
         type:Number,
         default:0,
