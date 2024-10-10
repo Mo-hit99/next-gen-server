@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { db_connection } from "./DB Connection/db_connection.js";
 import { Product_router } from "./routes/product_router.js";
 import { User_route } from "./routes/User_routes.js";
+import invoice_Router from "./routes/invoice_router.js";
+import Payment_router from "./routes/payment_router.js";
 
 
 
@@ -24,6 +26,8 @@ app.use(express.json())
 
 app.use(Product_router)
 app.use(User_route)
+app.use(Payment_router)
+app.use(invoice_Router)
 app.options('*', cors(corsOptions)); 
 
 app.listen(port,()=>{
