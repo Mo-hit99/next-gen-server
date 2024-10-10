@@ -18,6 +18,8 @@ const Product_DB = mongoose.Schema({
     rate:{type:String},
     count:{type:String},
     filename:[{type:String}],
+    colors: [{ type: String }],
+    sizes: [{ type: String }],
     reviews:[ReviewProduct],
     numReviews: {
         type: Number,
