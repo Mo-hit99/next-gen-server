@@ -63,14 +63,16 @@ export const createProductData = async (req, res) => {
       console.log('no file there!!!')
      }
     const productImg = new ProductSchema({
-      brand,
-      title,
-      price,
-      description,
-      category,
-      rate,
-      count,
-      filename:fileDataArray,
+        brand,
+        title,
+        price,
+        colors,
+        sizes,
+        description,
+        category,
+        rate,
+        count,
+        filename:fileDataArray,
     });
     
     await productImg.save();
@@ -178,11 +180,11 @@ export const DeleteProductData = async (req, res) => {
 
 export const productReview = async (req, res) => {
   try {
-    const { comment, rating } = req.body;
+    const { name, comment, rating } = req.body;
     const productId = req.params.id;
 
     //Validate input
-    if (!comment || !rating) {
+    if (!name || !comment || !rating) {
       return res.status(400).send({
         success: false,
         message: "Comment and rating are required",
@@ -202,6 +204,7 @@ export const productReview = async (req, res) => {
    
 
     const review = {
+      name,
       rating: Number(rating),
       comment,
     };
