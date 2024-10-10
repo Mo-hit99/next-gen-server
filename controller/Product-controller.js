@@ -56,7 +56,7 @@ export const getProductDataById = async (req, res) => {
 };
 export const createProductData = async (req, res) => {
   try {
-    const { brand, title, price, description, category, rate, count } =
+    const  { brand, title, price, description, category, rate, count,colors,sizes } =
       req.body;
       const fileDataArray = req.files.map(file => file.path);
      if(!fileDataArray){
@@ -90,7 +90,7 @@ export const createProductData = async (req, res) => {
 export const UpdateProductData = async (req, res) => {
   try {
     const { id } = req.params;
-    const { brand, title, price, description, category, rate, count } =
+    const  { brand, title, price, description, category, rate, count,colors,sizes } =
       req.body;
       const fileDataArray = req.files.map(file => file.path);
     const updateProduct = await ProductSchema.findOneAndUpdate(
@@ -99,11 +99,13 @@ export const UpdateProductData = async (req, res) => {
         brand,
         title,
         price,
+        colors,
+        sizes,
         description,
         category,
         rate,
         count,
-        filenames:fileDataArray,
+        filename:fileDataArray,
       },
       { new: true }
     );
