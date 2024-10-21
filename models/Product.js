@@ -8,6 +8,7 @@ const ReviewProduct = mongoose.Schema({
     comment:{
         type:String
     },
+    createdAt: { type: Date, default: Date.now }
 },{timestamps:true})
 
 const Product_DB = mongoose.Schema({
