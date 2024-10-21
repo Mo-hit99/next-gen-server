@@ -189,7 +189,7 @@ export const productReview = async (req, res) => {
     if (!name || !comment || !rating) {
       return res.status(400).send({
         success: false,
-        message: "name,Comment and rating are required",
+        message: "Please Login",
       });
     }
 
