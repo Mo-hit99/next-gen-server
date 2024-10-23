@@ -5,6 +5,8 @@ const InvoiceSchema = mongoose.Schema(
     paymentId:{
       type: String
     },
+    subProductPrice:{type:String},
+    subQuantity:{type:String},
     totalQuantity:{type : Number},
     CustomerName: { type: String },
     productName: { type: String },
