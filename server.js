@@ -15,9 +15,10 @@ dotenv.config();
 const port= process.env.PORT || 8080;
 const app = express();
 app.use(helmet({
-  hidePoweredBy: true, // Hides X-Powered-By
-  frameguard: { action: 'deny' }, // Prevents clickjacking (removes X-Frame-Options)
-  xssFilter: true // Adds XSS protection header
+  hidePoweredBy: true, // Hides the X-Powered-By header
+  frameguard: { action: 'deny' }, // Prevents clickjacking
+  hsts: { maxAge: 31536000, includeSubDomains: true }, // HTTP Strict Transport Security
+  contentSecurityPolicy: false // Disable CSP for now, can configure later
 }));
 const corsOptions = {
   origin: 'https://next-gen-clothings.vercel.app', // Allow this origin
