@@ -37,7 +37,6 @@ const storage = new CloudinaryStorage({
 
 // Create multer instance
 
-
 const upload = multer({ storage: storage })
 
 export const Product_router = express.Router()

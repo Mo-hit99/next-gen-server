@@ -30,7 +30,8 @@ const storage = new CloudinaryStorage({
     },
     public_id:(req,file)=>{
       `${Date.now()}-${file.originalname.split('.')[0]}`
-    }
+    },
+    folder: 'uploads-img', // The name of the folder in Cloudinary
   },
 });
 
