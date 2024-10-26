@@ -15,7 +15,7 @@ export async function getMessageData (req, res){
          // Check if a file was uploaded
          let imageUrl = null; // Default to null if no file is uploaded
          if (req.file) {
-             imageUrl = req.file.filename; // Use filename if file exists
+             imageUrl = req.file.path; // Use filename if file exists
          }
         const message = new customerCareChatBox({ sender, content, imageUrl });
         await message.save();
