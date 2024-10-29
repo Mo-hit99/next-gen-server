@@ -24,6 +24,17 @@ const InvoiceSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    status: {
+      type: String,
+      enum: ['Ordered', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered'],
+      default: 'Ordered',
+    },
+    statusUpdates: [
+      {
+        status: String,
+        updatedAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

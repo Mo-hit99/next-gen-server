@@ -102,7 +102,7 @@ export function invoiceTemplate(customerName,customerAddress,PaymentId,ProductNa
                 <td>${subQuantity}</td>
                 <td>${TotalQuantity}</td>
                 <td>₹ ${SubProductPrice}</td>
-                <td>₹ ${(productPrice).toFixed(2)}</td>
+                <td>₹ ${productPrice}</td>
               </tr>
               <tr>
                 <td colspan="3"><strong>Subtotal</strong></td>
