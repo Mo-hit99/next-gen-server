@@ -35,6 +35,10 @@ const InvoiceSchema = mongoose.Schema(
         updatedAt: { type: Date, default: Date.now },
       },
     ],
+    estimatedDeliveryDate: {
+      type: Number,
+      default: 5, 
+    },
   },
   { timestamps: true }
 );

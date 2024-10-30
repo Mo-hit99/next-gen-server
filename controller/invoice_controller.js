@@ -306,3 +306,23 @@ const generateAndSendInvoice = async (invoice, email) => {
     fs.unlinkSync(pdfPath);
     console.log("PDF deleted after sending");
 }
+
+
+// remaining delivery days
+export const getRemainingDeliveryDays = async (req,res)=>{
+  try {
+    const {invoiceId} = req.params;
+    const invoice = await invoiceModel.findById(invoiceId);
+    if(!invoice) return res.status(400).json({message:'Invoice not found'});
+    const orderDate  = new Date(invoice.date);
+    const estimatedDeliveryDate = new Date(
+      orderDate.setDate(orderDate.getDate() + invoice.estimatedDeliveryDate)
+    );
+    const remainingDays = Math.ceil(
+      (estimatedDeliveryDate - new Date())/(1000 * 60 * 60 * 24)
+    );
+    res.status(200).json({message:"Remaining delivery days calculated",remainingDays:remainingDays > 0 ? remainingDays : 0 })
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
