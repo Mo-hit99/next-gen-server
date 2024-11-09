@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import {
   get_allData,
   getById_data,
+  getMonthlyUserCounts,
   googleLogin,
   UserCreateData,
   UserDeleteDate,
@@ -20,6 +21,8 @@ export const User_route = express.Router();
 // get all user data
 User_route.get("/api/user", get_allData);
 
+// Define the route for getting monthly user counts
+User_route.get('/api/user/monthlyUserData', getMonthlyUserCounts);
 // get user data by Id
 User_route.get("/api/user/:id", getById_data);
 

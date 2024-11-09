@@ -49,6 +49,38 @@ export const get_allData = async (req, res) => {
   }
 };
 
+// Function to aggregate users by month and year
+export const getMonthlyUserCounts = async (req, res) => {
+  try {
+    const totalUser= await userModel.countDocuments()
+    const user_data = await userModel.aggregate([
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" }
+          },
+          userCount: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 } // Sort by year and month
+      }
+    ]);
+
+    // Format data for frontend: "YYYY-MM" format
+    const formattedData = user_data.map(data => ({
+      month: `${data._id.year}-${String(data._id.month).padStart(2, '0')}`,
+      userCount: data.userCount
+    }));
+
+    res.status(200).json({formattedData,totalUser}); // Send formatted data
+  } catch (error) {
+    console.error("Error fetching monthly user count data:", error);
+    res.status(500).json({ error: "Failed to fetch monthly user data" });
+  }
+};
+
 // get by id data
 export const getById_data = async (req, res) => {
   
