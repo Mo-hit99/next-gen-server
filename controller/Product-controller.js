@@ -3,7 +3,6 @@ import { ProductSchema } from "../models/Product.js";
 // get all data
 export const getAllProductData = async (req, res) => {
   try {
-
     const search = req.query.search || "";
     const category = req.query.category || "";
     const brand = req.query.brand || "";
@@ -16,26 +15,24 @@ export const getAllProductData = async (req, res) => {
       },
     };
 
-     if(category){
-        query.category=category;
-     }
-     if(brand){
-        query.brand=brand;
-     }
+    if (category) {
+      query.category = category;
+    }
+    if (brand) {
+      query.brand = brand;
+    }
 
     const skip = (page - 1) * pageSize;
     const totalCount = await ProductSchema.countDocuments(query);
 
-    let queryData = await ProductSchema.find(query)
-      .limit(pageSize)
-      .skip(skip);
-    const pageCount = Math.ceil(totalCount/pageSize);
+    let queryData = await ProductSchema.find(query).limit(pageSize).skip(skip);
+    const pageCount = Math.ceil(totalCount / pageSize);
     res.status(200).json({
       pagination: {
         page,
         totalCount,
         pageCount,
-        pageSize
+        pageSize,
       },
       queryData,
     });
@@ -56,25 +53,34 @@ export const getProductDataById = async (req, res) => {
 };
 export const createProductData = async (req, res) => {
   try {
-    const  { brand, title, price, description, category, rate, count,colors,sizes } =
-      req.body;
-      const fileDataArray = req.files.map(file => file.path);
-     if(!fileDataArray){
-      console.log('no file there!!!')
-     }
+    const {
+      brand,
+      title,
+      price,
+      description,
+      category,
+      rate,
+      count,
+      colors,
+      sizes,
+    } = req.body;
+    const fileDataArray = req.files.map((file) => file.path);
+    if (!fileDataArray) {
+      console.log("no file there!!!");
+    }
     const productImg = new ProductSchema({
-        brand,
-        title,
-        price,
-        colors,
-        sizes,
-        description,
-        category,
-        rate,
-        count,
-        filename:fileDataArray,
+      brand,
+      title,
+      price,
+      colors,
+      sizes,
+      description,
+      category,
+      rate,
+      count,
+      filename: fileDataArray,
     });
-    
+
     await productImg.save();
     res.send("file stored in data");
     console.log("file has been stored in database");
@@ -82,7 +88,7 @@ export const createProductData = async (req, res) => {
     console.log("file has failed to stored in database", {
       error: error,
     });
-    res.status(400).json(error.message)
+    res.status(400).json(error.message);
   }
 };
 
@@ -90,9 +96,18 @@ export const createProductData = async (req, res) => {
 export const UpdateProductData = async (req, res) => {
   try {
     const { id } = req.params;
-    const  { brand, title, price, description, category, rate, count,colors,sizes } =
-      req.body;
-      const fileDataArray = req.files.map(file => file.path);
+    const {
+      brand,
+      title,
+      price,
+      description,
+      category,
+      rate,
+      count,
+      colors,
+      sizes,
+    } = req.body;
+    const fileDataArray = req.files.map((file) => file.path);
     const updateProduct = await ProductSchema.findOneAndUpdate(
       { _id: id },
       {
@@ -105,7 +120,7 @@ export const UpdateProductData = async (req, res) => {
         category,
         rate,
         count,
-        filename:fileDataArray,
+        filename: fileDataArray,
       },
       { new: true }
     );
@@ -116,7 +131,7 @@ export const UpdateProductData = async (req, res) => {
     console.log("Product detail updated");
   } catch (error) {
     res.status(400).json({ error: error });
-    console.log("Product detail failed" , error.message);
+    console.log("Product detail failed", error.message);
   }
 };
 
@@ -140,10 +155,10 @@ export const DeleteProductData = async (req, res) => {
 //     const {comment,rating} = req.body;
 //     const id = req.params.id;
 //     const product = await ProductSchema.findById(id);
-//     const alreadyReviewed =  product.reviews.find((r)=> { 
+//     const alreadyReviewed =  product.reviews.find((r)=> {
 //       return r.user.toString() === req.user._id.toString()
 //     });
-  
+
 //     if(alreadyReviewed){
 //       return res.status(400).send({success:false,message:"product already review"})
 //     }
@@ -154,10 +169,10 @@ export const DeleteProductData = async (req, res) => {
 //       user:req.user._id,
 //     }
 //     product.reviews.push(review);
-    
+
 //     product.numReviews = product.reviews.length;
 //     product.rating = product.reviews.reduce((acc,item)=> item.rating + acc , 0)/product.reviews.length;
-    
+
 //     await product.save();
 //     res.status(200).send({success:true,message:"Review Added!"});
 //   } catch (error) {
@@ -175,10 +190,8 @@ export const DeleteProductData = async (req, res) => {
 //       error,
 //     });
 //   }
-  
 
 // }
-
 
 export const productReview = async (req, res) => {
   try {
@@ -189,21 +202,18 @@ export const productReview = async (req, res) => {
     if (!name || !comment || !rating) {
       return res.status(400).send({
         success: false,
-        message: "Please Login",
+        message: "Please Right Something",
       });
     }
 
-
     const product = await ProductSchema.findById(productId);
-    
+
     if (!product) {
       return res.status(404).send({
         success: false,
         message: "Product not found",
       });
     }
-
-   
 
     const review = {
       name,
@@ -212,16 +222,15 @@ export const productReview = async (req, res) => {
     };
 
     product.reviews.push(review);
-    
     product.numReviews = product.reviews.length;
-    product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+    product.rating = product.reviews.reduce((acc, item) => acc + item.rating, 0) / product.numReviews;
 
     await product.save();
-    console.log("Review added!")
+    console.log("Review added!");
     res.status(200).send({ success: true, message: "Review added!" });
   } catch (error) {
     console.error(error);
-    
+
     // Handle specific error types
     if (error.name === "CastError") {
       return res.status(400).send({
@@ -241,55 +250,69 @@ export const productReview = async (req, res) => {
 // delete Product Review
 export const productDeleteReview = async (req, res) => {
   try {
-    const { reviewId } = req.params; 
-    const { productId } = req.params; 
+    const { reviewId } = req.params;
+    const { productId } = req.params;
 
     // Fetch the product by ID
     const product = await ProductSchema.findById(productId);
 
     // Check if the product exists
     if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
+    const productIndx =  product.reviews.findIndex((ele) => ele._id.toString() === reviewId)
+    product.reviews.splice(
+      productIndx,
+      1
+    );
 
-    product.reviews.splice(product.reviews.findIndex(ele => ele._id.toString() === reviewId) , 1)
-
+    if (product.reviews.length === 0) {
+      product.numReviews = 0;
+      product.rating = 0;
+    }
+    if(product.reviews.length){
+      product.numReviews = product.reviews.length
+    }
     // Save the updated product document
     await product.save();
-    res.status(200).json({ message: 'Review deleted successfully'});
+    res.status(200).json({ message: "Review deleted successfully" });
     console.log("Review deleted");
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.log("Failed to delete review");
   }
-}
+};
 
 // update product reviews
 
-export const productUpdateReview = async (req,res)=>{
+export const productUpdateReview = async (req, res) => {
   try {
-    const { reviewId } = req.params; 
-    const { productId } = req.params; 
-    const {upDatedComment} = req.body;
-    if(!upDatedComment){
-      return res.status(400).json( {success: false,message:"please edit your comment!"})
+    const { reviewId } = req.params;
+    const { productId } = req.params;
+    const { upDatedComment } = req.body;
+    if (!upDatedComment) {
+      return res
+        .status(400)
+        .json({ success: false, message: "please edit your comment!" });
     }
     // Fetch the product by ID
     const product = await ProductSchema.findById(productId);
 
     // Check if the product exists
     if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
 
-   const updateComment = await product.reviews.find( ele => ele._id.toString() === reviewId)
-   updateComment.comment = upDatedComment
+    const updateComment = await product.reviews.find(
+      (ele) => ele._id.toString() === reviewId
+    );
+    updateComment.comment = upDatedComment;
     // Save the updated product document
     await product.save();
-    res.status(200).json({ message: 'Review update successfully'});
+    res.status(200).json({ message: "Review update successfully" });
     console.log("Review update");
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.log("Failed to update review");
   }
-}
+};

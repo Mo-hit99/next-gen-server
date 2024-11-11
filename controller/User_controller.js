@@ -43,7 +43,6 @@ export const get_allData = async (req, res) => {
         optionalOfficeAddress:user.optionalOfficeAddress,
       }));
     res.status(200).json(safeUsers);
-    console.log(user_data);
   } catch (error) {
     res.status(400).json({ error: error });
   }
@@ -100,7 +99,6 @@ export const getById_data = async (req, res) => {
       optionalOfficeAddress: User_data.optionalOfficeAddress,
     };
     res.status(200).json(safeUser);
-    console.log(User_data);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
