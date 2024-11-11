@@ -148,50 +148,6 @@ export const DeleteProductData = async (req, res) => {
   }
 };
 
-// review product section
-
-// export const productReview = async (req,res)=>{
-//   try {
-//     const {comment,rating} = req.body;
-//     const id = req.params.id;
-//     const product = await ProductSchema.findById(id);
-//     const alreadyReviewed =  product.reviews.find((r)=> {
-//       return r.user.toString() === req.user._id.toString()
-//     });
-
-//     if(alreadyReviewed){
-//       return res.status(400).send({success:false,message:"product already review"})
-//     }
-//     const review = {
-//       name:req.user.name,
-//       rating:Number(rating),
-//       comment,
-//       user:req.user._id,
-//     }
-//     product.reviews.push(review);
-
-//     product.numReviews = product.reviews.length;
-//     product.rating = product.reviews.reduce((acc,item)=> item.rating + acc , 0)/product.reviews.length;
-
-//     await product.save();
-//     res.status(200).send({success:true,message:"Review Added!"});
-//   } catch (error) {
-//     console.log(error)
-//     // cast error ||  OBJECT ID
-//     if (error.name === "CastError") {
-//       return res.status(500).send({
-//         success: false,
-//         message: "Invalid Id",
-//       });
-//     }
-//     res.status(500).send({
-//       success: false,
-//       message: "Error In Review Comment API",
-//       error,
-//     });
-//   }
-
-// }
 
 export const productReview = async (req, res) => {
   try {
