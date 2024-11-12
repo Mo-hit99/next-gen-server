@@ -276,7 +276,7 @@ const generateAndSendInvoice = async (invoice, email) => {
     });
 
     let mailOptions = {
-      from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
+      from: `"NextGenClothes.com" <${process.env.NODE_MAIL_ID}>`,
       to: email, // Recipient email address
       subject: "Your Invoice",
       html: invoiceTemplate(

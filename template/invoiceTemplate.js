@@ -124,7 +124,7 @@ export function invoiceTemplate(customerName,customerAddress,PaymentId,ProductNa
           <!-- Footer -->
           <div class="footer">
             <p>Thank you for shopping with Next Gen Clothings!</p>
-            <p>If you have any questions, contact us at support@nextgenclothings.com</p>
+            <p>If you have any questions, contact us at u9120307@gmail.com</p>
           </div>
         </div>
       </body>

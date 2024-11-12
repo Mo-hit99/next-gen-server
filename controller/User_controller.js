@@ -178,7 +178,7 @@ export const UserCreateData = async (req, res) => {
     });
     
     let mailOptions = {
-      from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
+      from: `"NextGenClothes.com" <${process.env.NODE_MAIL_ID}>`,
       to: `${user.email}`,
       subject: "verification Email",
       html: optTemplate(user.name,otp)
