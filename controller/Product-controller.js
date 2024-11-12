@@ -216,9 +216,9 @@ export const productDeleteReview = async (req, res) => {
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
-    const productIndx =  product.reviews.findIndex((ele) => ele._id.toString() === reviewId)
+    const productCommentIndx =  product.reviews.findIndex((ele) => ele._id.toString() === reviewId)
     product.reviews.splice(
-      productIndx,
+      productCommentIndx,
       1
     );
 
