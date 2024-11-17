@@ -161,8 +161,8 @@ export const UserDeleteDate = async (req, res) => {
 };
 // signup user
 export const UserCreateData = async (req, res) => {
-  const { name, email, password } = req.body;
   try {
+    const { name, email, password } = req.body;
     const otp = generateOtp();
     const user = await userModel.signup(name, email, password,otp);
     const token = createToken(user._id);
