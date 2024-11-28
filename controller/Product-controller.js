@@ -1,3 +1,4 @@
+import { redisClient } from "../DB Connection/redis_connection.js";
 import { ProductSchema } from "../models/Product.js";
 
 // get all data
@@ -66,7 +67,7 @@ export const getProductDataById = async (req, res) => {
       return res.status(200).json(JSON.parse(cacheData))
     }
     const getById = await ProductSchema.findById({ _id: id });
-    
+
     await redisClient.set(cacheKey,JSON.stringify(getById),{
       EX:3600
     })
