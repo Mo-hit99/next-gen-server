@@ -10,6 +10,7 @@ import Payment_router from "./routes/payment_router.js";
 import { createServer } from "http"; // Import createServer from 'http'
 import { Server } from "socket.io"; // Import Server from 'socket.io'
 import { CustomerCareChatBox_router } from "./routes/CustomerCare_router.js";
+import { redisDatabaseConnection } from "./DB Connection/redis_connection.js";
 
 dotenv.config();
 
@@ -72,6 +73,7 @@ io.on("connection", (socket) => {
 httpServer.listen(port, () => {
   console.log("Server running at http://localhost:" + port);
   db_connection();
+  redisDatabaseConnection();
 });
 
 // app.listen(port,()=>{

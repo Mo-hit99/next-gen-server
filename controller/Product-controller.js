@@ -21,12 +21,27 @@ export const getAllProductData = async (req, res) => {
     if (brand) {
       query.brand = brand;
     }
-
+    const cacheKey = 'productData'
+    const cachedData =await redisClient.get(cacheKey);
+    if(cachedData){
+      return res.status(200).json(JSON.parse(cachedData))
+    }
     const skip = (page - 1) * pageSize;
     const totalCount = await ProductSchema.countDocuments(query);
 
     let queryData = await ProductSchema.find(query).limit(pageSize).skip(skip);
     const pageCount = Math.ceil(totalCount / pageSize);
+    await redisClient.set(cacheKey,JSON.stringify({
+      pagination: {
+        page,
+        totalCount,
+        pageCount,
+        pageSize,
+      },
+      queryData,
+    }),{
+      EX:3600
+    })
     res.status(200).json({
       pagination: {
         page,
@@ -45,7 +60,16 @@ export const getAllProductData = async (req, res) => {
 export const getProductDataById = async (req, res) => {
   try {
     const { id } = req.params;
+    const cacheKey= `productData${id}`
+    const cacheData = await redisClient.get(cacheKey);
+    if(cacheData){
+      return res.status(200).json(JSON.parse(cacheData))
+    }
     const getById = await ProductSchema.findById({ _id: id });
+    
+    await redisClient.set(cacheKey,JSON.stringify(getById),{
+      EX:3600
+    })
     res.status(200).json(getById);
   } catch (error) {
     res.status(400).json({ error: error.message });

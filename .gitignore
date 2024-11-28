@@ -27,7 +27,6 @@ dist/
 coverage.xml
 
 # Ignore package lock files (e.g. package-lock.json)
-package-lock.json
 yarn.lock
 
 # Ignore temp files

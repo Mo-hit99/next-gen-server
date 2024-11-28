@@ -6,27 +6,27 @@ export const Product_router = express.Router()
 // product routes
 
 // get data
-Product_router.get('/productData',getAllProductData)
+Product_router.get('/products/productData',getAllProductData)
 
 // get by id
-Product_router.get('/productData/:id',getProductDataById)
+Product_router.get('/products/productData/:id',getProductDataById)
 
 // create data
-Product_router.post('/productData',upload.array('image'),createProductData)
+Product_router.post('/products/productData',upload.array('image'),createProductData)
 
 // update data
-Product_router.put('/productData/:id',upload.array('image'),UpdateProductData)
+Product_router.put('/products/productData/:id',upload.array('image'),UpdateProductData)
 
 // delete data
-Product_router.delete('/productData/:id',DeleteProductData)
+Product_router.delete('/products/productData/:id',DeleteProductData)
 
 // review product
 
-Product_router.post('/productData/:id/review',productReview);
+Product_router.post('/products/productData/:id/review',productReview);
 
 // delete review product
-Product_router.delete('/productData/:productId/review/:reviewId', productDeleteReview);
+Product_router.delete('/products/productData/:productId/review/:reviewId', productDeleteReview);
 
 // update review product
-Product_router.patch('/productData/:productId/review/:reviewId', productUpdateReview);
+Product_router.patch('/products/productData/:productId/review/:reviewId', productUpdateReview);
 

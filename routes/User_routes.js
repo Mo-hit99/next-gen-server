@@ -19,33 +19,33 @@ dotenv.config();
 export const User_route = express.Router();
 
 // get all user data
-User_route.get("/api/user", get_allData);
+User_route.get("/users/api/user", get_allData);
 
 // Define the route for getting monthly user counts
-User_route.get('/api/user/monthlyUserData', getMonthlyUserCounts);
+User_route.get('/users/api/user/monthlyUserData', getMonthlyUserCounts);
 // get user data by Id
-User_route.get("/api/user/:id", getById_data);
+User_route.get("/users/api/user/:id", getById_data);
 
 // update user data
-User_route.put("/api/user/:id", UserUpdateData);
+User_route.put("/users/api/user/:id", UserUpdateData);
 
 // delete user data
-User_route.delete("/api/user/:id", UserDeleteDate);
+User_route.delete("/users/api/user/:id", UserDeleteDate);
 
 // create user data register
-User_route.post("/signup", UserCreateData);
+User_route.post("/users/signup", UserCreateData);
 
 // user login
-User_route.post("/login", userLogin);
+User_route.post("/users/login", userLogin);
 
 // verification otp
-User_route.post('/verification-Otp',verificationOtp)
+User_route.post('/users/verification-Otp',verificationOtp)
 // forgot-password
 
-User_route.post("/forgot-password", userForgotPassword);
+User_route.post("/users/forgot-password", userForgotPassword);
 
 // rest-password
-User_route.post("/reset-password/:token", userRestPassword);
+User_route.post("/users/reset-password/:token", userRestPassword);
 
 // google login
-User_route.get("/auth/google", googleLogin);
+User_route.get("/users/auth/google", googleLogin);
