@@ -22,7 +22,7 @@ export const User_route = express.Router();
 User_route.get("/users/api/user", get_allData);
 
 // Define the route for getting monthly user counts
-User_route.get('/users/api/user/monthlyUserData', getMonthlyUserCounts);
+User_route.get('/users/monthlyUserData', getMonthlyUserCounts);
 // get user data by Id
 User_route.get("/users/api/user/:id", getById_data);
 
