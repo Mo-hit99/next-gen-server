@@ -40,8 +40,8 @@ User_route.post("/users/login", userLogin);
 
 // verification otp
 User_route.post('/users/verification-Otp',verificationOtp)
-// forgot-password
 
+// forgot-password
 User_route.post("/users/forgot-password", userForgotPassword);
 
 // rest-password
