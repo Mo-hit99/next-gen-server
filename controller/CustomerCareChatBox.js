@@ -11,7 +11,7 @@ export async function getMessageData (req, res){
         }
         const messages = await customerCareChatBox.find().sort({ timestamp: 1 });
         await redisClient.set(cacheKey,JSON.stringify(messages),{
-            EX:3600,
+            EX:5,
         })
         res.status(200).json(messages);
     } catch (error) {

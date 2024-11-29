@@ -41,7 +41,7 @@ export const getAllProductData = async (req, res) => {
       },
       queryData,
     }),{
-      EX:3600
+      EX:5
     })
     res.status(200).json({
       pagination: {
