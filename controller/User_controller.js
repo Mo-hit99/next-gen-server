@@ -6,6 +6,7 @@ import axios from "axios";
 import nodemailer from "nodemailer";
 import { oauth2client } from "../utils/googleConfig.js";
 import { optTemplate } from "../template/template.js";
+import { updatePassworDTemplate } from "../template/updatepasswordsucessfully.js";
 
 dotenv.config();
 
@@ -264,7 +265,7 @@ export const userForgotPassword = async (req, res) => {
       from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
       to: `${user.email}`,
       subject: "Reset your Password",
-      text: `Reset Your Password
+      html: `<p>Reset Your Password
              Click on the following link to reset your password:
              ${process.env.CLIENT_HTTP_LINK + "/reset-password/" + token},
              The link will expire in 10 minutes.</p>
@@ -312,6 +313,31 @@ export const userRestPassword = async (req, res) => {
       return res.status(401).send({ message: "no user found" });
     }
     await user.save();
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.NODE_MAIL_ID,
+        pass: process.env.NODE_MAILER_PASSWORD,
+      },
+    });
+
+    let mailOptions = {
+      from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
+      to: `${user.email}`,
+      subject: "Reset your Password",
+      html: updatePassworDTemplate(user.name,'NextGenClothes')
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        return res.send({ Status: "Success" });
+      }
+    });
     res.send({ Status: "Success" });
   } catch (error) {
     console.log(error.message);
