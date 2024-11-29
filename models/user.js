@@ -19,14 +19,15 @@ const userSchema = mongoose.Schema({
 
 // static signup for User
 userSchema.statics.signup= async function(name,email,password,otp){
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=])[A-Za-z\d@$!%*?&]{8,}$/;
     if(!email || !password || !name){
         throw Error("All fields must be filled")
     }
     if(!validator.isEmail(email)){
         throw Error('Email not valid')
     }
-    if(!validator.isStrongPassword(password)){
-        throw Error('Password not strong enough')
+    if(!passwordRegex.test(password)){
+        throw Error('Password must have: At least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.')
     }
     const exist = await this.findOne({email})
     if(exist){
