@@ -7,6 +7,8 @@ import nodemailer from "nodemailer";
 import { oauth2client } from "../utils/googleConfig.js";
 import { optTemplate } from "../template/template.js";
 import { updatePassworDTemplate } from "../template/updatepasswordsucessfully.js";
+import { clientQueryTemplate } from "../template/clientQueryTemplate.js";
+import { TeamEmailSender } from "../utils/TeamEmail.js";
 
 dotenv.config();
 
@@ -373,3 +375,52 @@ export const googleLogin = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
+// client query 
+export const UserQuery = async (req,res)=>{
+  try {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const {email,query} = req.body;
+    if(!email || !query){
+      return res.status(400).json({message:'Fields not be Empty!'})
+    }
+    if(!emailRegex.test(email)){
+      return res.status(400).json({message:'invalid Email!'})
+    }
+    if(!query){
+      return res.status(400).json({message:'invalid Query!'})
+    }
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+      user: process.env.NODE_MAIL_ID,
+      pass: process.env.NODE_MAILER_PASSWORD,
+    },
+  });
+  
+  let mailOptions = {
+    from: `"NextGen.com" <${process.env.NODE_MAIL_ID}>`,
+    to: `${email}`,
+    subject: "Client Query",
+    html: clientQueryTemplate(email,query)
+  };
+  
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      return res.send({ Status: "Success" });
+    }
+  });
+  if(email || query){
+    TeamEmailSender(email,query)
+  }
+  res.status(201).json({message:"Success"});
+} catch (error) {
+  console.log(error)
+  res.status(501).json(error);
+}
+}

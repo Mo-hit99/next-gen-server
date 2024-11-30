@@ -9,6 +9,7 @@ import {
   UserDeleteDate,
   userForgotPassword,
   userLogin,
+  UserQuery,
   userRestPassword,
   UserUpdateData,
   verificationOtp,
@@ -49,3 +50,7 @@ User_route.post("/users/reset-password/:token", userRestPassword);
 
 // google login
 User_route.get("/users/auth/google", googleLogin);
+
+// user client query feedback
+
+User_route.post('/users/client/query',UserQuery)
